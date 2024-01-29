@@ -1,4 +1,4 @@
-package com.bookstore.common;
+package com.bookstore.common.constants;
 
 public enum ResponseCodes {
 

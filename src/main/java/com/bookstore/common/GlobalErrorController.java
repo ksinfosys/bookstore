@@ -1,4 +1,4 @@
-package com.bookstore.controller;
+package com.bookstore.common;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

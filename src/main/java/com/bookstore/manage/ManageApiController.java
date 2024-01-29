@@ -1,4 +1,4 @@
-package com.bookstore.controller;
+package com.bookstore.manage;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

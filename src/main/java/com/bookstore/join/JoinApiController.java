@@ -1,4 +1,4 @@
-package com.bookstore.controller;
+package com.bookstore.join;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bookstore.common.ResponseCodes;
+import com.bookstore.common.constants.ResponseCodes;
 import com.bookstore.util.MessageUtils;
 import com.bookstore.vo.BookstoreResponse;
 
@@ -35,7 +35,7 @@ public class JoinApiController {
 		String name = req.getParameter("name");
 		String id = req.getParameter("id");
 		
-		String messages = messageUtils.getMessage("BKMSG_1");
+		String messages = messageUtils.getMessage("SYI01");
 		res.setResultMessage(messages);
 		
 		res.setResultCode(ResponseCodes.OK.getCode());

@@ -1,7 +1,8 @@
-package com.bookstore.controller;
+package com.bookstore.order;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,21 +12,21 @@ import com.bookstore.vo.BookstoreResponse;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping("myaccount")
-public class MyaccountApiController {
+@RequestMapping("order")
+public class OrderApiController {
 	
-	@PostMapping("/checkpassword")
-	public ResponseEntity<BookstoreResponse> checkpassword(HttpServletRequest req) throws Exception {
+	@GetMapping({"","/"})
+	public ResponseEntity<BookstoreResponse> order(HttpServletRequest req) throws Exception {
 		
-		String password = req.getParameter("password");
+		String check = req.getParameter("check");
 		
 		BookstoreResponse res = new BookstoreResponse();
-		res.setResultMessage("44562345");
+		
 		return new ResponseEntity<BookstoreResponse>(res, HttpStatus.OK);
 	}
 	
-	@PostMapping({"","/"})
-	public ResponseEntity<BookstoreResponse> myaccount(HttpServletRequest req) throws Exception {
+	@PostMapping("/shippinginformation")
+	public ResponseEntity<BookstoreResponse> shippinginformation(HttpServletRequest req) throws Exception {
 
 		String check = req.getParameter("check");
 		
@@ -34,23 +35,15 @@ public class MyaccountApiController {
 		return new ResponseEntity<BookstoreResponse>(res, HttpStatus.OK);
 	}
 	
-	@PostMapping("/updatepassowrd")
-	public ResponseEntity<BookstoreResponse> updatepassowrd(HttpServletRequest req) throws Exception{
+	@PostMapping("/paymentmethod")
+	public ResponseEntity<BookstoreResponse> paymentmethod(HttpServletRequest req) throws Exception{
+
+		String check = req.getParameter("check");
 		
 		BookstoreResponse res = new BookstoreResponse();
 
 		return new ResponseEntity<BookstoreResponse>(res, HttpStatus.OK);
 		
 	}
-	
-	@PostMapping("/delete")
-	public ResponseEntity<BookstoreResponse> delete(HttpServletRequest req) throws Exception{
-		
-		BookstoreResponse res = new BookstoreResponse();
-
-		return new ResponseEntity<BookstoreResponse>(res, HttpStatus.OK);
-		
-	} 
-	
 	
 }

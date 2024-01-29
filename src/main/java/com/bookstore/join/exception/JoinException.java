@@ -1,4 +1,4 @@
-package com.bookstore.Exception;
+package com.bookstore.join.exception;
 
 public class JoinException extends RuntimeException{
 
