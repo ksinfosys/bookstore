@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bookstore.common.constants.ResponseCodes;
+import com.bookstore.common.vo.BookstoreResponse;
 import com.bookstore.util.MessageUtils;
-import com.bookstore.vo.BookstoreResponse;
 
 import jakarta.servlet.http.HttpServletRequest;
 

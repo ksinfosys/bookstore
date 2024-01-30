@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bookstore.vo.BookstoreResponse;
+import com.bookstore.common.vo.BookstoreResponse;
 
 import jakarta.servlet.http.HttpServletRequest;
 

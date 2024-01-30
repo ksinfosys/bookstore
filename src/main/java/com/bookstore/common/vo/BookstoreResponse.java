@@ -1,4 +1,4 @@
-package com.bookstore.vo;
+package com.bookstore.common.vo;
 
 public class BookstoreResponse {
 

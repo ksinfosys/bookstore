@@ -6,8 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bookstore.common.vo.BookstoreResponse;
 import com.bookstore.util.MessageUtils;
-import com.bookstore.vo.BookstoreResponse;
 
 import jakarta.servlet.http.HttpServletRequest;
 
