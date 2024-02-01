@@ -1,0 +1,56 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bookstore.member.dao.MemberDao">
+
+<insert id="join" parameterType="com.bookstore.member.dto.MemberDto">
+	INSERT INTO bookstore.member_mgt(
+	    member_idx
+	    ,member_name
+	    ,member_email
+	    ,member_id
+	    ,member_password
+	    ,member_phone
+	    ,member_birthday
+	    ,member_gender
+	    ,member_postal_code
+	    ,member_post_address
+	    ,member_detailed_address	
+	)
+	VALUES(
+	    NEXTVAL('seq_member_idx')
+	    ,#{memberName}
+	    ,#{memberEmail}
+	    ,#{memberId}
+	    ,#{memberPassword}
+	    ,#{memberPhone}
+	    ,#{memberBirthday}
+	    ,#{memberGender}
+	    ,#{memberPostalCode}
+	    ,#{memberPostAddress}
+	    ,#{memberDetailedAddress}
+	);
+</insert>
+
+<select id="memberList" resultType="com.bookstore.member.dto.MemberDto"> 
+	SELECT 
+		* 
+	FROM 
+		bookstore.member_mgt
+</select>
+
+<select id="idCheck" resultType="int" parameterType="String"> 
+	SELECT 
+		count(*)
+	FROM   
+		bookstore.member_mgt
+	WHERE
+		member_id = #{memberId}
+	AND
+		logical_del_flag = '0'	
+</select>
+
+
+</mapper>
+

@@ -1,13 +1,13 @@
-package com.bookstore.join.exception;
+package com.bookstore.member.exception;
 
-public class JoinException extends RuntimeException{
+public class MemberException extends RuntimeException{
 
 	private static final long serialVersionUID = 1L;
 	
 	private String message;
 	private String code;
 	
-	public JoinException(String message, String code) {
+	public MemberException(String message, String code) {
 		super();
 		this.message = message;
 		this.code = code;
