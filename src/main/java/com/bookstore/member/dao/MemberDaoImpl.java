@@ -26,19 +26,10 @@ public class MemberDaoImpl extends HelpSqlSessionTemplate implements MemberDao{
 		return dto;
 	}
 
-//	@Override
-//	public String memberIdCheck(String memberId) {
-//		String dto = getSqlSessionTemplate().selectOne("com.bookstore.member.dao.MemberDao.idCheck", memberId);
-//		return dto;
-//	}
-	
-//	@Override
-//	public String memberIdCheck(String memberId) {
-//		MemberDto dto = getSqlSessionTemplate().selectOne("com.bookstore.member.dao.MemberDao.idCheck", memberId);
-//		return dto;
-//	}
-	
-	
-
+	@Override
+	public String login(String memberId) {
+		String memberDto = getSqlSessionTemplate().selectOne("com.bookstore.member.dao.MemberDao.memberLoginById", memberId);
+		return memberDto;
+	}
 
 }

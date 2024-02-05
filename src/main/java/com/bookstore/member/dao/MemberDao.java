@@ -12,8 +12,6 @@ public interface MemberDao {
 
 	public int memberIdCheck(String memberId);
 
-//	public String memberIdCheck(String memberId);
-
-//	public MemberDto memberIdCheck(String memberId);
+	public MemberDto login(String memberId);
 	
 }

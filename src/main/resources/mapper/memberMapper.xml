@@ -51,6 +51,18 @@
 		logical_del_flag = '0'	
 </select>
 
+<select id="memberLoginById" resultType="com.bookstore.member.dto.MemberDto" parameterType="String"> 
+	SELECT 
+		member_id AS memberId
+	FROM   
+		bookstore.member_mgt
+	WHERE
+		member_id = #{memberId}
+	AND
+		logical_del_flag = '0'	
+</select>
+
+
 
 </mapper>
 

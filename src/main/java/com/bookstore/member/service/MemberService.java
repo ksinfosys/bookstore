@@ -31,15 +31,9 @@ public class MemberService {
 		return memberDao.memberIdCheck(memberId);
 	}
 
-//	public String memberIdCheck(String memberId) throws Exception {
-//		
-//		return memberDao.memberIdCheck(memberId);
-//	}
-	
-//	public MemberDao memberIdCheck(String memberId) throws Exception {
-//		
-//		return memberDao.memberIdCheck(memberId);
-//	}
+	public String login(String memberId) {
 
+		return memberDao.login(memberId);
+	}
 	
 }
