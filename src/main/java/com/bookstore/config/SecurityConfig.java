@@ -33,6 +33,8 @@ public class SecurityConfig {
                 		    "/"
                 		    ,"/join"
                 		    ,"/login"
+                		    ,"/logout"
+                		    ,"/myaccount"
                 		    ,"/error"
             			    ).permitAll()
             .anyRequest().authenticated());

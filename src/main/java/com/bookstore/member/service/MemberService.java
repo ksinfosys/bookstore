@@ -17,22 +17,20 @@ public class MemberService {
 	@Autowired
 	public MemberDao memberDao;
 	
-	public int join(MemberDto memberDto) {
+	public int join(MemberDto memberDto) throws Exception {
 		int result = memberDao.join(memberDto);
 		return result;
 	}
 	
-	public List<MemberDto> memberList() {
+	public List<MemberDto> memberList() throws Exception {
 		return memberDao.memberList();
 	}
 
 	public int memberIdCheck(String memberId) throws Exception {
-		
 		return memberDao.memberIdCheck(memberId);
 	}
 
-	public String login(String memberId) {
-
+	public MemberDto login(String memberId) {
 		return memberDao.login(memberId);
 	}
 	

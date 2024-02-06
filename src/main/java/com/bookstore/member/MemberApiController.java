@@ -17,6 +17,7 @@ import com.bookstore.member.dto.MemberDto;
 import com.bookstore.member.exception.MemberException;
 import com.bookstore.member.service.MemberService;
 import com.bookstore.util.MessageUtils;
+import com.bookstore.util.ObjectUtil;
 import com.bookstore.util.SecurityUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,7 +36,6 @@ public class MemberApiController {
 		
 		BookstoreResponse 	  res 		 = new BookstoreResponse();
 		MemberDto 			  memberDto  = new MemberDto();	
-//		List<MemberDto>       memberList = memberService.memberList();
 		
 		SecurityUtil security = new SecurityUtil();
 		
@@ -98,25 +98,41 @@ public class MemberApiController {
 	@PostMapping("/login")
 	public ResponseEntity<BookstoreResponse> login(HttpServletRequest req
 												 , @RequestBody Map<String, Object> request) throws Exception{
-		
-		String memberDto = null;
-		
+		BookstoreResponse res = new BookstoreResponse();
+		MemberDto memberDto   = new MemberDto();
 		String memberId 	  = (String)request.getOrDefault("memberId", null);
 		String memberPassword = (String)request.getOrDefault("memberPassword", null);
 		String messages;
-		
-		BookstoreResponse res = new BookstoreResponse();
-		
 		SecurityUtil security = new SecurityUtil();
-		
 		String securePassword = security.encryptSHA256(memberPassword);
 		
 		try {
 			memberDto = memberService.login(memberId);
-		}catch (Exception e) {
-			messages = messageUtils.getMessage("MBB08");
+			//memberDto = memberService.login(securePassword);
+		} catch (Exception e) {
+			messages = messageUtils.getMessage("MBB08", new Object[] { memberId });
+			throw new MemberException(messages, "MBB08");
 		}
 		
+		if(ObjectUtil.isEmpty(memberDto)) {
+			messages = messageUtils.getMessage("MBB08", new Object[] { memberId });
+			throw new MemberException(messages, "MBB08");
+		}
+		if(!securePassword.equals(memberDto.getMemberPassword())) {
+			messages = messageUtils.getMessage("MBB03");
+			throw new MemberException(messages, "MBB03");
+		}
+						
+		res.setResultMessage(messageUtils.getMessage("MBI02"));		
+		res.setResultCode(ResponseCodes.OK.getCode());
+
+		return new ResponseEntity<BookstoreResponse>(res, HttpStatus.OK);
+		
+	}
+	
+	@PostMapping("/logout")
+	public ResponseEntity<BookstoreResponse> logout(HttpServletRequest req) throws Exception {
+		BookstoreResponse res = new BookstoreResponse();
 		
 		return new ResponseEntity<BookstoreResponse>(res, HttpStatus.OK);
 		

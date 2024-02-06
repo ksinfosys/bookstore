@@ -13,5 +13,4 @@ public interface MemberDao {
 	public int memberIdCheck(String memberId);
 
 	public MemberDto login(String memberId);
-	
 }
