@@ -31,11 +31,13 @@ public class SecurityConfig {
             .authorizeHttpRequests(authz -> authz
             		.requestMatchers(                		    
                 		    "/"
+            				,"/error"
                 		    ,"/join"
                 		    ,"/login"
                 		    ,"/logout"
                 		    ,"/myaccount"
-                		    ,"/error"
+                		    ,"/myaccount/checkpassword"
+                		    ,"/myaccount/updatepassword"
             			    ).permitAll()
             .anyRequest().authenticated());
 		http.csrf(csrf -> csrf.ignoringRequestMatchers("/**"));

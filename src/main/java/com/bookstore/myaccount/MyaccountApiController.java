@@ -13,36 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("myaccount")
 public class MyaccountApiController {
-		
-	@PostMapping({"","/"})
-	public ResponseEntity<BookstoreResponse> myaccount(HttpServletRequest req) throws Exception {
-
-		String check = req.getParameter("check");
-		
-		BookstoreResponse res = new BookstoreResponse();
-		
-		return new ResponseEntity<BookstoreResponse>(res, HttpStatus.OK);
-	}
-
-	@PostMapping("/checkpassword")
-	public ResponseEntity<BookstoreResponse> checkpassword(HttpServletRequest req) throws Exception {
-		
-		String password = req.getParameter("password");
-		
-		BookstoreResponse res = new BookstoreResponse();
-		res.setResultMessage("44562345");
-		return new ResponseEntity<BookstoreResponse>(res, HttpStatus.OK);
-	}
-		
-	@PostMapping("/updatepassowrd")
-	public ResponseEntity<BookstoreResponse> updatepassowrd(HttpServletRequest req) throws Exception{
-		
-		BookstoreResponse res = new BookstoreResponse();
-
-		return new ResponseEntity<BookstoreResponse>(res, HttpStatus.OK);
-		
-	}
-	
+						
 	@PostMapping("/delete")
 	public ResponseEntity<BookstoreResponse> delete(HttpServletRequest req) throws Exception{
 		

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.bookstore.member.dao.MemberDao;
 import com.bookstore.member.dto.MemberDto;
+import com.bookstore.member.dto.MemberInfoDto;
 import com.bookstore.util.MessageUtils;
 
 @Service
@@ -30,8 +31,16 @@ public class MemberService {
 		return memberDao.memberIdCheck(memberId);
 	}
 
-	public MemberDto login(String memberId) {
+	public MemberDto login(String memberId) throws Exception{
 		return memberDao.login(memberId);
 	}
-	
+
+	public MemberInfoDto myAccountInformation(String memberId) throws Exception{
+		return memberDao.myAccountInformation(memberId);
+	}
+
+	public int myAccountUpdatePassword(String memberId) throws Exception{
+		return memberDao.myAccountUpdatePassword(memberId);
+	}
+
 }

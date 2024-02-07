@@ -54,7 +54,7 @@
 <select id="login" resultType="com.bookstore.member.dto.MemberDto" parameterType="String"> 
 	SELECT 
 		member_id AS memberId
-		, member_password AS memberPassword
+	   ,member_password AS memberPassword
 	FROM   
 		bookstore.member_mgt
 	WHERE
@@ -63,19 +63,36 @@
 		logical_del_flag = '0'	
 </select>
 
-<select id="myAccountInformation" resultType="com.bookstore.member.dto.MemberDto" parameterType="String"> 
+<select id="myAccountInformation" resultType="com.bookstore.member.dto.MemberInfoDto" parameterType="String"> 
 	SELECT 
-		*
+
+    member_name   			 AS memberName
+   	,member_email 			 AS memberEmail
+    ,member_id    			 AS memberId
+    ,member_phone 			 AS memberPhone
+    ,member_birthday 		 AS memberBirthday
+    ,member_gender 			 AS memberGender
+    ,member_postal_code 	 AS memberPostalCode
+    ,member_post_address 	 AS memberPostAddress
+    ,member_detailed_address AS memberDetailedAddress
+
 	FROM   
 		bookstore.member_mgt
 	WHERE
 		member_id = #{memberId}
 	AND
-		logical_del_flag = '0'	
+		logical_del_flag = '0'
+		
 </select>
 
-
-
+<update id="myAccountUpdatePassword" parameterType="com.bookstore.member.dto.MemberDto"> 
+    UPDATE 
+    	bookstore.member_mgt
+	SET 
+    	member_password = #{memberPassword}
+	WHERE
+		member_id = #{memberId} 
+</update>
 
 </mapper>
 

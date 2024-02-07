@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bookstore.common.constants.ResponseCodes;
 import com.bookstore.common.vo.BookstoreResponse;
 import com.bookstore.member.dto.MemberDto;
+import com.bookstore.member.dto.MemberInfoDto;
 import com.bookstore.member.exception.MemberException;
 import com.bookstore.member.service.MemberService;
 import com.bookstore.util.MessageUtils;
@@ -108,7 +109,6 @@ public class MemberApiController {
 		
 		try {
 			memberDto = memberService.login(memberId);
-			//memberDto = memberService.login(securePassword);
 		} catch (Exception e) {
 			messages = messageUtils.getMessage("MBB08", new Object[] { memberId });
 			throw new MemberException(messages, "MBB08");
@@ -122,12 +122,11 @@ public class MemberApiController {
 			messages = messageUtils.getMessage("MBB03");
 			throw new MemberException(messages, "MBB03");
 		}
-						
-		res.setResultMessage(messageUtils.getMessage("MBI02"));		
+		
+		res.setResultMessage(messageUtils.getMessage("MBI02"));
 		res.setResultCode(ResponseCodes.OK.getCode());
 
 		return new ResponseEntity<BookstoreResponse>(res, HttpStatus.OK);
-		
 	}
 	
 	@PostMapping("/logout")
@@ -136,6 +135,90 @@ public class MemberApiController {
 		
 		return new ResponseEntity<BookstoreResponse>(res, HttpStatus.OK);
 		
+	}
+	
+	@PostMapping("/myaccount/checkpassword")
+	public ResponseEntity<BookstoreResponse> checkpassword(HttpServletRequest req
+														 , @RequestBody Map<String, Object> request) throws Exception {
+		BookstoreResponse res = new BookstoreResponse();
+		MemberDto memberDto   = new MemberDto();
+		String messages;
+		SecurityUtil security = new SecurityUtil();
+
+		String memberId 	  = (String)request.getOrDefault("memberId", null);
+		String memberPassword = (String)request.getOrDefault("memberPassword", null);
+		
+		String securePassword = security.encryptSHA256(memberPassword);
+
+		try {
+			memberDto = memberService.login(memberId);
+		} catch (Exception e) {
+			messages = messageUtils.getMessage("MBB08", new Object[] { memberId });
+			throw new MemberException(messages, "MBB08");
+		}
+		
+		if(!securePassword.equals(memberDto.getMemberPassword())) {
+			messages = messageUtils.getMessage("MBB03");
+			throw new MemberException(messages, "MBB03");
+		}
+		
+		res.setResultMessage(messageUtils.getMessage("MBI01"));		
+		res.setResultCode(ResponseCodes.OK.getCode());
+		
+		return new ResponseEntity<BookstoreResponse>(res, HttpStatus.OK);
+	}
+	
+	@PostMapping("/myaccount")
+	public ResponseEntity<BookstoreResponse> myaccount(HttpServletRequest req
+													 , @RequestBody Map<String, Object> request)throws Exception {
+		BookstoreResponse res 		= new BookstoreResponse();
+		MemberInfoDto memberInfoDto = new MemberInfoDto();
+		
+		String memberId = (String)request.getOrDefault("memberId", null);
+		
+		memberInfoDto = memberService.myAccountInformation(memberId);
+		
+		res.setResultMessage(messageUtils.getMessage("MBI01"));		
+		res.setResultCode(ResponseCodes.OK.getCode());
+		res.setResult(memberInfoDto);
+
+		return new ResponseEntity<BookstoreResponse>(res, HttpStatus.OK);	
+	}
+
+	@PostMapping("/myaccount/updatepassword")
+	public ResponseEntity<BookstoreResponse> updatepassword(HttpServletRequest req
+													 , @RequestBody Map<String, Object> request)throws Exception {
+		BookstoreResponse res = new BookstoreResponse();
+		MemberDto memberDto   = new MemberDto();
+		SecurityUtil security = new SecurityUtil();
+		String messages;		
+		
+		String memberId            = (String)request.getOrDefault("memberId", null);
+		String memberPassword 	   = (String)request.getOrDefault("memberPassword", null);
+		
+		String passwordChange 	   = (String)request.getOrDefault("passwordChange", null);
+		String passwordChangeCheck = (String)request.getOrDefault("passwordChangeCheck", null);
+		
+		String securePassword = security.encryptSHA256(memberPassword);
+		
+		// 1. 현재 맴버 아이디에 비밀 번호가 일치하는지 확인
+		
+		try {
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		// 2. 일치하면 새로운 비밀번호를 입력
+		
+		// 3. 새로운 비밀번호를 재 입력
+		
+		// 4. 새로운 비밀 번호 2개가 일치하면 통과 OK
+		
+		res.setResultMessage(messageUtils.getMessage("MBI01"));		
+		res.setResultCode(ResponseCodes.OK.getCode());
+		
+		return new ResponseEntity<BookstoreResponse>(res, HttpStatus.OK);	
 	}
 	
 }

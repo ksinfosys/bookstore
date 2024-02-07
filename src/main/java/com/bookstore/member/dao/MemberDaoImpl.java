@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import com.bookstore.config.HelpSqlSessionTemplate;
 import com.bookstore.member.dto.MemberDto;
+import com.bookstore.member.dto.MemberInfoDto;
 
 @Repository
 public class MemberDaoImpl extends HelpSqlSessionTemplate implements MemberDao{
@@ -27,9 +28,18 @@ public class MemberDaoImpl extends HelpSqlSessionTemplate implements MemberDao{
 	}
 
 	@Override
-	public MemberDto login(String memberId) {
-		
+	public MemberDto login(String memberId) {		
 		return getSqlSessionTemplate().selectOne("com.bookstore.member.dao.MemberDao.login", memberId);
+	}
+
+	@Override
+	public MemberInfoDto myAccountInformation(String memberId) {
+		return getSqlSessionTemplate().selectOne("com.bookstore.member.dao.MemberDao.myAccountInformation", memberId);
+	}
+	
+	@Override
+	public int myAccountUpdatePassword(String memberId) {
+		return getSqlSessionTemplate().update("com.bookstore.member.dao.MemberDao.myAccountUpdatePassword", memberId);
 	}
 
 }
