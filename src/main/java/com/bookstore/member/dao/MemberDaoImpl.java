@@ -1,5 +1,6 @@
 package com.bookstore.member.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -41,5 +42,23 @@ public class MemberDaoImpl extends HelpSqlSessionTemplate implements MemberDao{
 	public int myAccountUpdatePassword(String memberId) {
 		return getSqlSessionTemplate().update("com.bookstore.member.dao.MemberDao.myAccountUpdatePassword", memberId);
 	}
+
+	@Override
+	public int memberPasswordCheck(String memberPassword) {
+		return getSqlSessionTemplate().selectOne("com.bookstore.member.dao.MemberDao.memberPasswordCheck", memberPassword);
+	}
+
+	@Override
+	public int memberPasswordUpdate(String memberId, String securePasswordChange) {
+		HashMap<String, Object> memberHashMap = new HashMap<String, Object>();
+		memberHashMap.put("memberId", memberId);
+		memberHashMap.put("securePasswordChange", securePasswordChange);
+		return getSqlSessionTemplate().update("com.bookstore.member.dao.MemberDao.memberPasswordUpdate", memberHashMap);
+	}
+
+	
+//	@Override
+//	public int memberPasswordUpdate(String securePasswordChange) {
+//	}
 
 }

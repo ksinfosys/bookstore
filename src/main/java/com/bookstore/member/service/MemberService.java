@@ -43,4 +43,11 @@ public class MemberService {
 		return memberDao.myAccountUpdatePassword(memberId);
 	}
 
+	public int memberPasswordCheck(String memberPassword) throws Exception {
+		return memberDao.memberPasswordCheck(memberPassword);
+	}
+
+	public int memberPasswordUpdate(String memberId, String securePasswordChange) {
+		return memberDao.memberPasswordUpdate(memberId, securePasswordChange);
+	}
 }

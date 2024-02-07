@@ -19,4 +19,8 @@ public interface MemberDao {
 
 	public int myAccountUpdatePassword(String memberId);
 
+	public int memberPasswordCheck(String memberPassword);
+
+	public int memberPasswordUpdate(String memberId, String securePasswordChange);
+
 }

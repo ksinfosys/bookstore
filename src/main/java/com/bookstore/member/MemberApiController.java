@@ -199,21 +199,37 @@ public class MemberApiController {
 		String passwordChange 	   = (String)request.getOrDefault("passwordChange", null);
 		String passwordChangeCheck = (String)request.getOrDefault("passwordChangeCheck", null);
 		
-		String securePassword = security.encryptSHA256(memberPassword);
-		
-		// 1. 현재 맴버 아이디에 비밀 번호가 일치하는지 확인
+		String securePassword            = security.encryptSHA256(memberPassword);
+		String securePasswordChange      = security.encryptSHA256(passwordChange);
+		String securePasswordChangeCheck = security.encryptSHA256(passwordChangeCheck);
 		
 		try {
-			
+			memberDto = memberService.login(memberId);
 		} catch (Exception e) {
-			// TODO: handle exception
+			messages = messageUtils.getMessage("MBB08", new Object[] { memberId });
+			throw new MemberException(messages, "MBB08");
 		}
 		
-		// 2. 일치하면 새로운 비밀번호를 입력
+		if(ObjectUtil.isEmpty(memberDto)) {
+			messages = messageUtils.getMessage("MBB08", new Object[] { memberId });
+			throw new MemberException(messages, "MBB08");
+		}
+		if(!securePassword.equals(memberDto.getMemberPassword())) {
+			messages = messageUtils.getMessage("MBB03");
+			throw new MemberException(messages, "MBB03");
+		}
 		
-		// 3. 새로운 비밀번호를 재 입력
+		if (!securePasswordChange.equals(securePasswordChangeCheck)) {
+		    messages = messageUtils.getMessage("MBB03");
+		    throw new MemberException(messages, "MBB03");
+		}
 		
-		// 4. 새로운 비밀 번호 2개가 일치하면 통과 OK
+		try {
+		    memberService.memberPasswordUpdate(memberId, securePasswordChange);
+		} catch (Exception e) {
+		    messages = messageUtils.getMessage("MBB09");
+		    throw new MemberException(messages, "MBB09");
+		}
 		
 		res.setResultMessage(messageUtils.getMessage("MBI01"));		
 		res.setResultCode(ResponseCodes.OK.getCode());
