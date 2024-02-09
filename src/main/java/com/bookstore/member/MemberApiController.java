@@ -35,23 +35,22 @@ public class MemberApiController {
 	public ResponseEntity<BookstoreResponse> join(HttpServletRequest req
 												, @RequestBody Map<String, Object> request) throws Exception{
 		
-		BookstoreResponse 	  res 		 = new BookstoreResponse();
-		MemberDto 			  memberDto  = new MemberDto();	
-		
+		BookstoreResponse res = new BookstoreResponse();
+        MemberDto memberDto = new MemberDto();
 		SecurityUtil security = new SecurityUtil();
 		
 		int idCheck = 0;
 
-		String memberId 			 = (String)request.getOrDefault("memberId", null);
-		String memberName			 = (String)request.getOrDefault("memberName", null);
-		String memberEmail 			 = (String)request.getOrDefault("memberEmail", null);
-		String memberPassword		 = (String)request.getOrDefault("memberPassword", null);
-		String memberPasswordRe		 = (String)request.getOrDefault("memberPasswordRe", null);
-		String memberPhone			 = (String)request.getOrDefault("memberPhone", null);
-		String memberBirthday		 = (String)request.getOrDefault("memberBirthday", null);
-		String memberGender			 = (String)request.getOrDefault("memberGender", null);
-		String memberPostalCode		 = (String)request.getOrDefault("memberPostalCode", null);
-		String memberPostAddress	 = (String)request.getOrDefault("memberPostAddress", null);
+		String memberId = (String)request.getOrDefault("memberId", null);
+		String memberName = (String)request.getOrDefault("memberName", null);
+		String memberEmail = (String)request.getOrDefault("memberEmail", null);
+		String memberPassword = (String)request.getOrDefault("memberPassword", null);
+		String memberPasswordRe = (String)request.getOrDefault("memberPasswordRe", null);
+		String memberPhone = (String)request.getOrDefault("memberPhone", null);
+		String memberBirthday = (String)request.getOrDefault("memberBirthday", null);
+		String memberGender = (String)request.getOrDefault("memberGender", null);
+		String memberPostalCode = (String)request.getOrDefault("memberPostalCode", null);
+		String memberPostAddress = (String)request.getOrDefault("memberPostAddress", null);
 		String memberDetailedAddress = (String)request.getOrDefault("memberDetailedAddress", null);		
 						
 		try {
@@ -99,9 +98,10 @@ public class MemberApiController {
 	@PostMapping("/login")
 	public ResponseEntity<BookstoreResponse> login(HttpServletRequest req
 												 , @RequestBody Map<String, Object> request) throws Exception{
+		
 		BookstoreResponse res = new BookstoreResponse();
-		MemberDto memberDto   = new MemberDto();
-		String memberId 	  = (String)request.getOrDefault("memberId", null);
+		MemberDto memberDto = new MemberDto();
+		String memberId = (String)request.getOrDefault("memberId", null);
 		String memberPassword = (String)request.getOrDefault("memberPassword", null);
 		String messages;
 		SecurityUtil security = new SecurityUtil();
@@ -141,13 +141,13 @@ public class MemberApiController {
 	public ResponseEntity<BookstoreResponse> checkpassword(HttpServletRequest req
 														 , @RequestBody Map<String, Object> request) throws Exception {
 		BookstoreResponse res = new BookstoreResponse();
-		MemberDto memberDto   = new MemberDto();
+		MemberDto memberDto = new MemberDto();
 		String messages;
 		SecurityUtil security = new SecurityUtil();
 
-		String memberId 	  = (String)request.getOrDefault("memberId", null);
+		String memberId = (String)request.getOrDefault("memberId", null);
 		String memberPassword = (String)request.getOrDefault("memberPassword", null);
-		
+
 		String securePassword = security.encryptSHA256(memberPassword);
 
 		try {
@@ -171,7 +171,7 @@ public class MemberApiController {
 	@PostMapping("/myaccount")
 	public ResponseEntity<BookstoreResponse> myaccount(HttpServletRequest req
 													 , @RequestBody Map<String, Object> request)throws Exception {
-		BookstoreResponse res 		= new BookstoreResponse();
+		BookstoreResponse res = new BookstoreResponse();
 		MemberInfoDto memberInfoDto = new MemberInfoDto();
 		
 		String memberId = (String)request.getOrDefault("memberId", null);
@@ -187,16 +187,16 @@ public class MemberApiController {
 
 	@PostMapping("/myaccount/updatepassword")
 	public ResponseEntity<BookstoreResponse> updatepassword(HttpServletRequest req
-													 , @RequestBody Map<String, Object> request)throws Exception {
+														  , @RequestBody Map<String, Object> request)throws Exception {
 		BookstoreResponse res = new BookstoreResponse();
-		MemberDto memberDto   = new MemberDto();
+		MemberDto memberDto = new MemberDto();
 		SecurityUtil security = new SecurityUtil();
 		String messages;		
 		
-		String memberId            = (String)request.getOrDefault("memberId", null);
-		String memberPassword 	   = (String)request.getOrDefault("memberPassword", null);
+		String memberId = (String)request.getOrDefault("memberId", null);
+		String memberPassword = (String)request.getOrDefault("memberPassword", null);
 		
-		String passwordChange 	   = (String)request.getOrDefault("passwordChange", null);
+		String passwordChange = (String)request.getOrDefault("passwordChange", null);
 		String passwordChangeCheck = (String)request.getOrDefault("passwordChangeCheck", null);
 		
 		String securePassword            = security.encryptSHA256(memberPassword);
@@ -241,15 +241,12 @@ public class MemberApiController {
 	public ResponseEntity<BookstoreResponse> delete(HttpServletRequest req
 													 , @RequestBody Map<String, Object> request)throws Exception {
 		BookstoreResponse res = new BookstoreResponse();
-		MemberDto memberDto   = new MemberDto();
+		MemberDto memberDto = new MemberDto();
 		SecurityUtil security = new SecurityUtil();
 		String messages;
 				
-		// 전송받은 아이디
 		String memberId = (String)request.getOrDefault("memberId", null);
-		// 전송받은 비밀번호
 		String memberPassword = (String)request.getOrDefault("memberPassword", null);
-		// 비밀 번호 암호화
 		String securePassword = security.encryptSHA256(memberPassword); 
 		
 		try {
@@ -259,18 +256,18 @@ public class MemberApiController {
 			throw new MemberException(messages, "MBB08");
 		}
 
-		// 맴버의 비밀 번호와 암호화 되어 전송된 비밀 번호가 일치 하지않으면 에러
 		if(!securePassword.equals(memberDto.getMemberPassword())) {
 			messages = messageUtils.getMessage("MBB03");
 			throw new MemberException(messages, "MBB03");
 		}
 		if(securePassword.equals(memberDto.getMemberPassword())) {
-			// 1.  비밀 번호가 일치하면 db에 '0'으로 등록되어있는 회원이 memberStatus가 '1'로 변경된다.
 			memberDto.setMemberStatus("1");
 			memberDto.setMemberId(memberId);
-			memberDto.setMemberPassword(memberPassword);
+			memberDto.setMemberPassword(securePassword);
 			
 			memberService.updateMemberStatus(memberDto);
+			
+			memberDto.getMemberStatus();
 			
 		}
 		
