@@ -54,5 +54,9 @@ public class MemberService {
 	public void updateMemberStatus(MemberDto memberDto) {
 		memberDao.updateMemberStatus(memberDto);		
 	}
+
+	public MemberDto memberInfo(String memberId) {
+		return memberDao.memberInfo(memberId);
+	}
 	
 }

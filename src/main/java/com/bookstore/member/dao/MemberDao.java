@@ -25,4 +25,6 @@ public interface MemberDao {
 
 	public void updateMemberStatus(MemberDto memberDto);
 
+	public MemberDto memberInfo(String memberId);
+
 }

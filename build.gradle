@@ -35,7 +35,8 @@ dependencies {
 		
 	runtimeOnly 'org.postgresql:postgresql'
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.0'
-
+	
+	implementation 'org.springframework.session:spring-session-core'	
 }
 
 tasks.named('test') {

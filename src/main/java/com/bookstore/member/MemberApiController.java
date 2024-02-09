@@ -22,6 +22,7 @@ import com.bookstore.util.ObjectUtil;
 import com.bookstore.util.SecurityUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @RestController
 public class MemberApiController {
@@ -97,7 +98,8 @@ public class MemberApiController {
 		
 	@PostMapping("/login")
 	public ResponseEntity<BookstoreResponse> login(HttpServletRequest req
-												 , @RequestBody Map<String, Object> request) throws Exception{
+												 , @RequestBody Map<String, Object> request
+												 , HttpSession session) throws Exception{
 		
 		BookstoreResponse res = new BookstoreResponse();
 		MemberDto memberDto = new MemberDto();
@@ -106,6 +108,8 @@ public class MemberApiController {
 		String messages;
 		SecurityUtil security = new SecurityUtil();
 		String securePassword = security.encryptSHA256(memberPassword);
+		
+		memberDto = memberService.memberInfo(memberId);
 		
 		try {
 			memberDto = memberService.login(memberId);
@@ -118,10 +122,16 @@ public class MemberApiController {
 			messages = messageUtils.getMessage("MBB08", new Object[] { memberId });
 			throw new MemberException(messages, "MBB08");
 		}
+				
 		if(!securePassword.equals(memberDto.getMemberPassword())) {
 			messages = messageUtils.getMessage("MBB03");
 			throw new MemberException(messages, "MBB03");
 		}
+		
+		session = req.getSession();
+		session.setAttribute("login", 1);
+		session.setAttribute("memberId", memberId);
+		session.setAttribute("adminFlg",memberDto.getAdminFlag());
 		
 		res.setResultMessage(messageUtils.getMessage("MBI02"));
 		res.setResultCode(ResponseCodes.OK.getCode());
@@ -130,8 +140,12 @@ public class MemberApiController {
 	}
 	
 	@PostMapping("/logout")
-	public ResponseEntity<BookstoreResponse> logout(HttpServletRequest req) throws Exception {
+	public ResponseEntity<BookstoreResponse> logout(HttpServletRequest req
+												   ,HttpSession session) throws Exception {
 		BookstoreResponse res = new BookstoreResponse();
+		
+		session = req.getSession();
+		session.invalidate();
 		
 		return new ResponseEntity<BookstoreResponse>(res, HttpStatus.OK);
 		
@@ -149,7 +163,7 @@ public class MemberApiController {
 		String memberPassword = (String)request.getOrDefault("memberPassword", null);
 
 		String securePassword = security.encryptSHA256(memberPassword);
-
+		
 		try {
 			memberDto = memberService.login(memberId);
 		} catch (Exception e) {
@@ -199,8 +213,8 @@ public class MemberApiController {
 		String passwordChange = (String)request.getOrDefault("passwordChange", null);
 		String passwordChangeCheck = (String)request.getOrDefault("passwordChangeCheck", null);
 		
-		String securePassword            = security.encryptSHA256(memberPassword);
-		String securePasswordChange      = security.encryptSHA256(passwordChange);
+		String securePassword = security.encryptSHA256(memberPassword);
+		String securePasswordChange = security.encryptSHA256(passwordChange);
 		String securePasswordChangeCheck = security.encryptSHA256(passwordChangeCheck);
 		
 		try {
@@ -239,7 +253,8 @@ public class MemberApiController {
 
 	@PostMapping("/myaccount/delete")
 	public ResponseEntity<BookstoreResponse> delete(HttpServletRequest req
-													 , @RequestBody Map<String, Object> request)throws Exception {
+												  , @RequestBody Map<String, Object> request
+												  , HttpSession session)throws Exception {
 		BookstoreResponse res = new BookstoreResponse();
 		MemberDto memberDto = new MemberDto();
 		SecurityUtil security = new SecurityUtil();
@@ -270,6 +285,9 @@ public class MemberApiController {
 			memberDto.getMemberStatus();
 			
 		}
+		
+		session = req.getSession();
+		session.invalidate();
 		
 		res.setResultMessage(messageUtils.getMessage("MBB10"));		
 		res.setResultCode(ResponseCodes.OK.getCode());

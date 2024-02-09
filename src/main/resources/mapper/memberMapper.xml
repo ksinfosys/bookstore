@@ -116,6 +116,38 @@
 		member_password = #{memberPassword} 
 </update>
 
+<select id="memberInfo" resultType="com.bookstore.member.dto.MemberDto" parameterType="String"> 
+	SELECT 
+
+    member_idx AS memberIdx	         
+    ,member_name AS memberName
+    ,member_email AS memberEmail
+    ,member_id AS memberId
+    ,member_password AS memberPassword
+    ,member_phone AS memberPhone
+    ,member_birthday AS memberBirthday
+    ,member_gender AS memberGender
+    ,member_postal_code AS memberPostalCode
+    ,member_post_address AS memberPostAddress
+    ,member_detailed_address AS memberDetailedAddress
+    ,member_report_count AS memberReportCount
+    ,member_status AS memberStatus
+    ,admin_flag AS adminFlag
+    ,rec_create_datetime AS recCreateDatetime
+    ,rec_create_id AS recCreateId
+    ,rec_update_datetime AS recUpdateDatetime
+    ,rec_update_id AS recUpdateId
+    ,logical_del_flag AS logicalDelFlag
+    
+	FROM   
+		bookstore.member_mgt
+	WHERE
+		member_id = #{memberId}
+	AND
+		logical_del_flag = '0'
+		
+</select>
+
 
 </mapper>
 

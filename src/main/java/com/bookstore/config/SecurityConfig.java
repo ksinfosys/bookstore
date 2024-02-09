@@ -25,20 +25,17 @@ public class SecurityConfig {
 	protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		
         http
-        /*    .securityMatchers((matchers) -> matchers.requestMatchers(
-                		"/testapi/**"
-                 		))*/
             .authorizeHttpRequests(authz -> authz
-            		.requestMatchers(                		    
-                		    "/"
+            		.requestMatchers(
+            				"/"
             				,"/error"
-                		    ,"/join"
-                		    ,"/login"
-                		    ,"/logout"
-                		    ,"/myaccount"
-                		    ,"/myaccount/checkpassword"
-                		    ,"/myaccount/updatepassword"
-                		    ,"/myaccount/delete"
+            				,"/join"
+            				,"/login"
+            				,"/logout"
+            				,"/myaccount"
+            				,"/myaccount/checkpassword"
+            				,"/myaccount/updatepassword"
+            				,"/myaccount/delete"
             			    ).permitAll()
             .anyRequest().authenticated());
 		http.csrf(csrf -> csrf.ignoringRequestMatchers("/**"));
