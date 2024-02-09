@@ -50,4 +50,9 @@ public class MemberService {
 	public int memberPasswordUpdate(String memberId, String securePasswordChange) {
 		return memberDao.memberPasswordUpdate(memberId, securePasswordChange);
 	}
+
+	public void updateMemberStatus(MemberDto memberDto) {
+		memberDao.updateMemberStatus(memberDto);		
+	}
+	
 }

@@ -96,7 +96,7 @@
 		logical_del_flag = '0'	
 </select>
 
-<update id="memberPasswordUpdate" parameterType="java.util.Map"> 
+<update id="memberPasswordUpdate" parameterType="java.util.Map" > 
     UPDATE 
     	bookstore.member_mgt
 	SET 
@@ -104,6 +104,18 @@
 	WHERE
 		member_id = #{memberId} 
 </update>
+
+<update id="updateMemberStatus" parameterType="com.bookstore.member.dto.MemberDto" > 
+    UPDATE 
+    	bookstore.member_mgt
+	SET 
+    	member_status = #{memberStatus}
+	WHERE
+		member_id = #{memberId}
+	AND
+		member_password = #{memberPassword} 
+</update>
+
 
 </mapper>
 

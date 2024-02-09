@@ -56,9 +56,9 @@ public class MemberDaoImpl extends HelpSqlSessionTemplate implements MemberDao{
 		return getSqlSessionTemplate().update("com.bookstore.member.dao.MemberDao.memberPasswordUpdate", memberHashMap);
 	}
 
-	
-//	@Override
-//	public int memberPasswordUpdate(String securePasswordChange) {
-//	}
+	@Override
+	public void updateMemberStatus(MemberDto memberDto) {
+		getSqlSessionTemplate().update("com.bookstore.member.dao.MemberDao.updateMemberStatus", memberDto);
+	}
 
 }

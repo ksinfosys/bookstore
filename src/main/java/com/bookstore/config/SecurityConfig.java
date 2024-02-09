@@ -38,6 +38,7 @@ public class SecurityConfig {
                 		    ,"/myaccount"
                 		    ,"/myaccount/checkpassword"
                 		    ,"/myaccount/updatepassword"
+                		    ,"/myaccount/delete"
             			    ).permitAll()
             .anyRequest().authenticated());
 		http.csrf(csrf -> csrf.ignoringRequestMatchers("/**"));

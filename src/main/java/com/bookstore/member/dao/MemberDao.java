@@ -23,4 +23,6 @@ public interface MemberDao {
 
 	public int memberPasswordUpdate(String memberId, String securePasswordChange);
 
+	public void updateMemberStatus(MemberDto memberDto);
+
 }
