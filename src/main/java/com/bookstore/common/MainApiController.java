@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 @RestController
 public class MainApiController {
 	
-	@GetMapping("/main")
+	@GetMapping({"","/"})
 	public ResponseEntity<BookstoreResponse> main(HttpServletRequest req) throws Exception{
 		
 		BookstoreResponse res = new BookstoreResponse();

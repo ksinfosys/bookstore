@@ -1,0 +1,153 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bookstore.member.dao.MemberDao">
+
+<insert id="join" parameterType="com.bookstore.member.dto.MemberDto">
+	INSERT INTO bookstore.member_mgt(
+	    member_idx
+	    ,member_name
+	    ,member_email
+	    ,member_id
+	    ,member_password
+	    ,member_phone
+	    ,member_birthday
+	    ,member_gender
+	    ,member_postal_code
+	    ,member_post_address
+	    ,member_detailed_address	
+	)
+	VALUES(
+	    NEXTVAL('seq_member_idx')
+	    ,#{memberName}
+	    ,#{memberEmail}
+	    ,#{memberId}
+	    ,#{memberPassword}
+	    ,#{memberPhone}
+	    ,#{memberBirthday}
+	    ,#{memberGender}
+	    ,#{memberPostalCode}
+	    ,#{memberPostAddress}
+	    ,#{memberDetailedAddress}
+	);
+</insert>
+
+<select id="memberList" resultType="com.bookstore.member.dto.MemberDto"> 
+	SELECT 
+		* 
+	FROM 
+		bookstore.member_mgt
+</select>
+
+<select id="idCheck" resultType="int" parameterType="String"> 
+	SELECT 
+		count(*)
+	FROM   
+		bookstore.member_mgt
+	WHERE
+		member_id = #{memberId}
+	AND
+		logical_del_flag = '0'	
+</select>
+
+<select id="login" resultType="com.bookstore.member.dto.MemberDto" parameterType="String"> 
+	SELECT 
+		member_id AS memberId
+	   ,member_password AS memberPassword
+	FROM   
+		bookstore.member_mgt
+	WHERE
+		member_id = #{memberId}
+	AND
+		logical_del_flag = '0'	
+</select>
+
+<select id="myAccountInformation" resultType="com.bookstore.member.dto.MemberInfoDto" parameterType="String"> 
+	SELECT 
+
+    member_name   			 AS memberName
+   	,member_email 			 AS memberEmail
+    ,member_id    			 AS memberId
+    ,member_phone 			 AS memberPhone
+    ,member_birthday 		 AS memberBirthday
+    ,member_gender 			 AS memberGender
+    ,member_postal_code 	 AS memberPostalCode
+    ,member_post_address 	 AS memberPostAddress
+    ,member_detailed_address AS memberDetailedAddress
+
+	FROM   
+		bookstore.member_mgt
+	WHERE
+		member_id = #{memberId}
+	AND
+		logical_del_flag = '0'
+		
+</select>
+
+<select id="memberPasswordCheck" resultType="int" parameterType="String"> 
+	SELECT 
+		count(*)
+	FROM   
+		bookstore.member_mgt
+	WHERE
+		member_password = #{memberPassword}
+	AND
+		logical_del_flag = '0'	
+</select>
+
+<update id="memberPasswordUpdate" parameterType="java.util.Map" > 
+    UPDATE 
+    	bookstore.member_mgt
+	SET 
+    	member_password = #{securePasswordChange}
+	WHERE
+		member_id = #{memberId} 
+</update>
+
+<update id="updateMemberStatus" parameterType="com.bookstore.member.dto.MemberDto" > 
+    UPDATE 
+    	bookstore.member_mgt
+	SET 
+    	member_status = #{memberStatus}
+	WHERE
+		member_id = #{memberId}
+	AND
+		member_password = #{memberPassword} 
+</update>
+
+<select id="memberInfo" resultType="com.bookstore.member.dto.MemberDto" parameterType="String"> 
+	SELECT 
+
+    member_idx AS memberIdx	         
+    ,member_name AS memberName
+    ,member_email AS memberEmail
+    ,member_id AS memberId
+    ,member_password AS memberPassword
+    ,member_phone AS memberPhone
+    ,member_birthday AS memberBirthday
+    ,member_gender AS memberGender
+    ,member_postal_code AS memberPostalCode
+    ,member_post_address AS memberPostAddress
+    ,member_detailed_address AS memberDetailedAddress
+    ,member_report_count AS memberReportCount
+    ,member_status AS memberStatus
+    ,admin_flag AS adminFlag
+    ,rec_create_datetime AS recCreateDatetime
+    ,rec_create_id AS recCreateId
+    ,rec_update_datetime AS recUpdateDatetime
+    ,rec_update_id AS recUpdateId
+    ,logical_del_flag AS logicalDelFlag
+    
+	FROM   
+		bookstore.member_mgt
+	WHERE
+		member_id = #{memberId}
+	AND
+		logical_del_flag = '0'
+		
+</select>
+
+
+</mapper>
+
