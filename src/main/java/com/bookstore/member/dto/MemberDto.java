@@ -17,14 +17,15 @@ public class MemberDto {
     private String    memberDetailedAddress; // varchar(200)
     private int       memberReportCount;	 // integer      DEFAULT '0'
     private String    memberStatus;	      	 // char(1)      DEFAULT '0'
-    private String 	  adminFlag;	         // char(1)      DEFAULT '0'
+    private String    adminFlag;	         // char(1)      DEFAULT '0'
     private Timestamp recCreateDatetime;	 // timestamp    DEFAULT 'NOW'
     private String    recCreateId;	         // char(1)      DEFAULT '0'
     private Timestamp recUpdateDatetime;	 // timestamp    DEFAULT 'NOW'
     private String    recUpdateId;	         // char(1)      DEFAULT '0'
     private String    logicalDelFlag;	     // char(1)      DEFAULT '0'
-	
-    public int getMemberIdx() {
+    private String    memberCookie;			 // varchar(64)  DEFAULT '0'
+    
+	public int getMemberIdx() {
 		return memberIdx;
 	}
 	public void setMemberIdx(int memberIdx) {
@@ -138,5 +139,11 @@ public class MemberDto {
 	public void setLogicalDelFlag(String logicalDelFlag) {
 		this.logicalDelFlag = logicalDelFlag;
 	}
-		
+	public String getMemberCookie() {
+		return memberCookie;
+	}
+	public void setMemberCookie(String memberCookie) {
+		this.memberCookie = memberCookie;
+	}
+	
 }

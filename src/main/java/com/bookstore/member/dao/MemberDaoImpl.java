@@ -37,15 +37,18 @@ public class MemberDaoImpl extends HelpSqlSessionTemplate implements MemberDao{
 	public MemberInfoDto myAccountInformation(String memberId) {
 		return getSqlSessionTemplate().selectOne("com.bookstore.member.dao.MemberDao.myAccountInformation", memberId);
 	}
-	
-	@Override
-	public int myAccountUpdatePassword(String memberId) {
-		return getSqlSessionTemplate().update("com.bookstore.member.dao.MemberDao.myAccountUpdatePassword", memberId);
-	}
 
 	@Override
-	public int memberPasswordCheck(String memberPassword) {
-		return getSqlSessionTemplate().selectOne("com.bookstore.member.dao.MemberDao.memberPasswordCheck", memberPassword);
+	public MemberInfoDto myAccountInformationCookie(String memberCookie) {
+		return getSqlSessionTemplate().selectOne("com.bookstore.member.dao.MemberDao.myAccountInformationCookie", memberCookie);
+	}
+	
+	@Override
+	public int memberPasswordCheck(String memberId, String securePassword) {
+		HashMap<String , Object> memberHashMap = new HashMap<String, Object>();
+		memberHashMap.put("memberId", memberId);
+		memberHashMap.put("securePassword", securePassword);
+		return getSqlSessionTemplate().selectOne("com.bookstore.member.dao.MemberDao.memberPasswordCheck", memberHashMap);
 	}
 
 	@Override
@@ -64,6 +67,16 @@ public class MemberDaoImpl extends HelpSqlSessionTemplate implements MemberDao{
 	@Override
 	public MemberDto memberInfo(String memberId) {
 		return getSqlSessionTemplate().selectOne("com.bookstore.member.dao.MemberDao.memberInfo", memberId);
+	}
+
+	@Override
+	public void updateMemberCookie(MemberDto memberDto) {
+		getSqlSessionTemplate().update("com.bookstore.member.dao.MemberDao.updateMemberCookie", memberDto);		
+	}
+
+	@Override
+	public void updateMember(MemberDto memberDto) {
+		getSqlSessionTemplate().update("com.bookstore.member.dao.MemberDao.updateMember", memberDto);				
 	}
 
 }
