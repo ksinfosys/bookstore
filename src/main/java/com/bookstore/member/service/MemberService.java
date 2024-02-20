@@ -39,12 +39,12 @@ public class MemberService {
 		return memberDao.myAccountInformation(memberId);
 	}
 
-	public int myAccountUpdatePassword(String memberId) throws Exception{
-		return memberDao.myAccountUpdatePassword(memberId);
+	public MemberInfoDto myAccountInformationCookie(String memberCookie) throws Exception{
+		return memberDao.myAccountInformationCookie(memberCookie);
 	}
 
-	public int memberPasswordCheck(String memberPassword) throws Exception {
-		return memberDao.memberPasswordCheck(memberPassword);
+	public int memberPasswordCheck(String memberPassword, String securePassword) throws Exception {
+		return memberDao.memberPasswordCheck(memberPassword, securePassword);
 	}
 
 	public int memberPasswordUpdate(String memberId, String securePasswordChange) {
@@ -57,6 +57,14 @@ public class MemberService {
 
 	public MemberDto memberInfo(String memberId) {
 		return memberDao.memberInfo(memberId);
+	}
+
+	public void updateMemberCookie(MemberDto memberDto) {
+		memberDao.updateMemberCookie(memberDto);
+	}
+
+	public void updateMember(MemberDto memberDto) {
+		memberDao.updateMember(memberDto);		
 	}
 	
 }

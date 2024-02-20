@@ -30,11 +30,14 @@ public class SecurityConfig {
             				"/"
             				,"/error"
             				,"/join"
+            				,"/test/**"
             				,"/login"
-            				,"/logout"
+            				,"/removeMemberCookie"
             				,"/myaccount"
+            				,"/checkPassword"
             				,"/myaccount/checkpassword"
             				,"/myaccount/updatepassword"
+            				,"/myaccount/update"
             				,"/myaccount/delete"
             			    ).permitAll()
             .anyRequest().authenticated());

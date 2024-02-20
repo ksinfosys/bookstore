@@ -75,11 +75,35 @@
     ,member_postal_code 	 AS memberPostalCode
     ,member_post_address 	 AS memberPostAddress
     ,member_detailed_address AS memberDetailedAddress
-
+	,member_cookie           AS memberCookie
+	
 	FROM   
 		bookstore.member_mgt
 	WHERE
 		member_id = #{memberId}
+	AND
+		logical_del_flag = '0'
+		
+</select>
+
+<select id="myAccountInformationCookie" resultType="com.bookstore.member.dto.MemberInfoDto" parameterType="String"> 
+	SELECT 
+
+    member_name   			 AS memberName
+   	,member_email 			 AS memberEmail
+    ,member_id    			 AS memberId
+    ,member_phone 			 AS memberPhone
+    ,member_birthday 		 AS memberBirthday
+    ,member_gender 			 AS memberGender
+    ,member_postal_code 	 AS memberPostalCode
+    ,member_post_address 	 AS memberPostAddress
+    ,member_detailed_address AS memberDetailedAddress
+	,member_cookie           AS memberCookie
+	
+	FROM   
+		bookstore.member_mgt
+	WHERE
+		member_cookie = #{memberCookie}
 	AND
 		logical_del_flag = '0'
 		
@@ -91,7 +115,9 @@
 	FROM   
 		bookstore.member_mgt
 	WHERE
-		member_password = #{memberPassword}
+		member_password = #{securePassword}
+	AND
+		member_id = #{memberId}
 	AND
 		logical_del_flag = '0'	
 </select>
@@ -138,6 +164,7 @@
     ,rec_update_datetime AS recUpdateDatetime
     ,rec_update_id AS recUpdateId
     ,logical_del_flag AS logicalDelFlag
+    ,member_cookie AS memberCookie
     
 	FROM   
 		bookstore.member_mgt
@@ -147,6 +174,32 @@
 		logical_del_flag = '0'
 		
 </select>
+
+<update id="updateMemberCookie" parameterType="com.bookstore.member.dto.MemberDto" > 
+    UPDATE 
+    	bookstore.member_mgt
+	SET 
+    	member_cookie = #{memberCookie}
+	WHERE
+		member_id = #{memberId}
+	AND
+		member_password = #{memberPassword} 
+</update>
+
+<update id="updateMember" parameterType="com.bookstore.member.dto.MemberDto" > 
+    UPDATE 
+    	bookstore.member_mgt
+	SET 
+    	member_email = #{memberEmail}
+    	,member_phone = #{memberPhone}
+    	,member_postal_code = #{memberPostalCode}
+    	,member_post_address = #{memberPostAddress}
+    	,member_detailed_address = #{memberDetailedAddress}
+	WHERE
+		member_id = #{memberId}
+	AND
+		member_cookie =#{memberCookie}
+</update>
 
 
 </mapper>

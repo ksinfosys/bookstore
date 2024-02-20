@@ -17,14 +17,18 @@ public interface MemberDao {
 
 	public MemberInfoDto myAccountInformation(String memberId);
 
-	public int myAccountUpdatePassword(String memberId);
+	public MemberInfoDto myAccountInformationCookie(String memberCookie);
 
-	public int memberPasswordCheck(String memberPassword);
+	public int memberPasswordCheck(String memberPassword, String securePassword);
 
 	public int memberPasswordUpdate(String memberId, String securePasswordChange);
 
 	public void updateMemberStatus(MemberDto memberDto);
 
 	public MemberDto memberInfo(String memberId);
+
+	public void updateMemberCookie(MemberDto memberDto);
+
+	public void updateMember(MemberDto memberDto);
 
 }
