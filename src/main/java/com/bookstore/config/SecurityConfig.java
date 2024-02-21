@@ -39,6 +39,7 @@ public class SecurityConfig {
             				,"/myaccount/updatepassword"
             				,"/myaccount/update"
             				,"/myaccount/delete"
+            				,"/idCheck"
             			    ).permitAll()
             .anyRequest().authenticated());
 		http.csrf(csrf -> csrf.ignoringRequestMatchers("/**"));

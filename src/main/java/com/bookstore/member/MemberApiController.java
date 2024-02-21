@@ -75,17 +75,22 @@ public class MemberApiController {
 			String messages = messageUtils.getMessage("MBB01", new Object[] { memberId });
 			throw new MemberException(messages, "MBB01");
 		}
-		
+				
 		if(idCheck > 0) {
 			String messages = messageUtils.getMessage("MBB01", new Object[] { memberId });
 			throw new MemberException(messages, "MBB01");	
 		}
-		
+				
 		memberDto.setMemberName(memberName);
 		memberDto.setMemberEmail(memberEmail);
 		memberDto.setMemberId(memberId);
-		
+				
 		String securePassword = security.encryptSHA256(memberPassword);
+	
+		if(!memberPassword.matches("^.*(?=^.{8,15}$)(?=.*\\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$")) {
+			String messages = messageUtils.getMessage("MBB15");
+			throw new MemberException(messages, "MBB15");		
+		}
 		
 		if (memberPassword.equals(memberPasswordRe)) {
 		    memberDto.setMemberPassword(securePassword);
@@ -93,7 +98,7 @@ public class MemberApiController {
 			String messages = messageUtils.getMessage("MBB03");
 			throw new MemberException(messages, "MBB03");
 		}
-
+		
 		memberDto.setMemberPhone(memberPhone);
 		memberDto.setMemberBirthday(memberBirthday);
 		memberDto.setMemberGender(memberGender);
@@ -106,6 +111,44 @@ public class MemberApiController {
 		res.setResultMessage(messageUtils.getMessage("MBI05"));		
 		res.setResultCode(ResponseCodes.OK.getCode());
 		res.setResult(result);
+		
+		return new ResponseEntity<BookstoreResponse>(res, HttpStatus.OK);
+		
+	}
+	
+	@PostMapping("/idCheck")
+	public ResponseEntity<BookstoreResponse> idCheck(HttpServletRequest req
+												, @RequestBody Map<String, Object> request) throws Exception{
+		
+		BookstoreResponse res = new BookstoreResponse();
+        MemberDto memberDto = new MemberDto();
+		
+		int idCheck = 0;
+
+		String memberId = (String)request.getOrDefault("memberId", null);
+		
+		try {
+			idCheck = memberService.memberIdCheck(memberId);
+		} catch (Exception e) {
+			String messages = messageUtils.getMessage("MBB01", new Object[] { memberId });
+			throw new MemberException(messages, "MBB01");
+		}
+		
+		if(idCheck > 0) {
+			String messages = messageUtils.getMessage("MBB01", new Object[] { memberId });
+			throw new MemberException(messages, "MBB01");	
+		}
+		
+		if(!memberId.matches("^[a-zA-Z0-9]*$") || memberId.length() > 16) {
+			String messages = messageUtils.getMessage("MBB13");
+			throw new MemberException(messages, "MBB13");				
+		}
+
+		memberDto.setMemberId(memberId);
+		
+		res.setResultMessage(messageUtils.getMessage("MBB14"));		
+		res.setResultCode(ResponseCodes.OK.getCode());
+		res.setResult(memberDto);
 		
 		return new ResponseEntity<BookstoreResponse>(res, HttpStatus.OK);
 		
@@ -124,11 +167,16 @@ public class MemberApiController {
 		String memberId = (String)request.getOrDefault("memberId", null);
 		String memberPassword = (String)request.getOrDefault("memberPassword", null);
 		
-		String messages;
+		String messages = messageUtils.getMessage("MBI02");
 		SecurityUtil security = new SecurityUtil();
 		String securePassword = security.encryptSHA256(memberPassword);
 				
 		memberDtoInfo = memberService.memberInfo(memberId);
+		
+		if(memberDtoInfo == null) {
+			messages = messageUtils.getMessage("MBB02");
+			throw new MemberException(messages, "MBB02");
+		}
 		
 		try {
 			memberDto = memberService.login(memberId);
@@ -173,7 +221,7 @@ public class MemberApiController {
 			throw new MemberException(messages, "MBB12");
 		}
 		
-		res.setResultMessage(messageUtils.getMessage("MBI02"));
+		res.setResultMessage(messages);
 		res.setResultCode(ResponseCodes.OK.getCode());
 		res.setResult(memberDtoInfo);
 
@@ -393,13 +441,13 @@ public class MemberApiController {
 		try {
 			memberDto = memberService.login(memberId);
 		} catch (Exception e) {
-			messages = messageUtils.getMessage("MBB08");
-			throw new MemberException(messages, "MBB08");
+			messages = messageUtils.getMessage("MBB11");
+			throw new MemberException(messages, "MBB11");
 		}
 		
 		if(ObjectUtil.isEmpty(memberDto)) {
-			messages = messageUtils.getMessage("MBB08");
-			throw new MemberException(messages, "MBB08");
+			messages = messageUtils.getMessage("MBB11");
+			throw new MemberException(messages, "MBB11");
 		}
 		
 		try {
@@ -412,12 +460,17 @@ public class MemberApiController {
 		if(passwordCheck != 1) {
 			messages = messageUtils.getMessage("MBB03");
 			throw new MemberException(messages, "MBB03");	
-		}		
+		}
+		
+		if(!passwordChange.matches("^.*(?=^.{8,15}$)(?=.*\\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$")) {
+			messages = messageUtils.getMessage("MBB15");
+			throw new MemberException(messages, "MBB15");		
+		}
 
 		if(!(securePassword.equals(memberDto.getMemberPassword()) && securePasswordChange.equals(securePasswordChangeCheck))) {
-			messages = messageUtils.getMessage("MBB03");
-			throw new MemberException(messages, "MBB03");
-		} 
+			messages = messageUtils.getMessage("MBB16");
+			throw new MemberException(messages, "MBB16");
+		}
 		
 		try {
 		    memberService.memberPasswordUpdate(memberId, securePasswordChange);
