@@ -195,6 +195,11 @@ public class MemberApiController {
 			throw new MemberException(messages, "MBB03");
 		}
 		
+		if(memberDtoInfo.getMemberStatus().equals("1")) {
+			messages = messageUtils.getMessage("MBB17");
+			throw new MemberException(messages, "MBB17");			
+		}
+		
 		String memberCookieKey = memberDtoInfo.getMemberId() + "book";
 		
 		String encodedCookie = Base64.getEncoder().encodeToString(memberCookieKey.getBytes());
@@ -214,15 +219,12 @@ public class MemberApiController {
 		String savedMemberEncodedCookie = (String) session.getAttribute("encodedCookie");
 		int loginStatus = (int) session.getAttribute("login");
 		
-		System.out.println(loginStatus);
-		
 		if(savedMemberEncodedCookie != encodedCookie){
 			messages = messageUtils.getMessage("MBB12");
 			throw new MemberException(messages, "MBB12");
 		}
 		
-		res.setResultMessage(messages);
-		res.setResultCode(ResponseCodes.OK.getCode());
+		res.setResultMessage(messages);res.setResultCode(ResponseCodes.OK.getCode());
 		res.setResult(memberDtoInfo);
 
 		return new ResponseEntity<BookstoreResponse>(res, HttpStatus.OK);
@@ -526,6 +528,7 @@ public class MemberApiController {
 		
 		res.setResultMessage(messageUtils.getMessage("MBB10"));		
 		res.setResultCode(ResponseCodes.OK.getCode());
+		res.setResult(memberDto);
 		
 		return new ResponseEntity<BookstoreResponse>(res, HttpStatus.OK);	
 	}
