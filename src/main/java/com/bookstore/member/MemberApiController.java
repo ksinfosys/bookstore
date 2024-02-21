@@ -280,7 +280,7 @@ public class MemberApiController {
 			messages = messageUtils.getMessage("MBB03");
 			throw new MemberException(messages, "MBB03");
 		}
-				
+						
 		session.setAttribute("memberId", memberId);
 
 		res.setResultMessage(messageUtils.getMessage("MBI01"));		
