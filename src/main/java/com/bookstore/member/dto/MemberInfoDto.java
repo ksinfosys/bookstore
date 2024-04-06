@@ -11,6 +11,8 @@ public class MemberInfoDto {
     private String    memberPostalCode;	     // varchar(100)
     private String    memberPostAddress;	 // varchar(200)
     private String    memberDetailedAddress; // varchar(200)
+    private String    memberCookie;			 // varchar(64)  DEFAULT '0'
+    
 	public String getMemberName() {
 		return memberName;
 	}
@@ -64,6 +66,12 @@ public class MemberInfoDto {
 	}
 	public void setMemberDetailedAddress(String memberDetailedAddress) {
 		this.memberDetailedAddress = memberDetailedAddress;
+	}
+	public String getMemberCookie() {
+		return memberCookie;
+	}
+	public void setMemberCookie(String memberCookie) {
+		this.memberCookie = memberCookie;
 	}
     
 }

@@ -30,12 +30,16 @@ public class SecurityConfig {
             				"/"
             				,"/error"
             				,"/join"
+            				,"/test/**"
             				,"/login"
-            				,"/logout"
+            				,"/removeMemberCookie"
             				,"/myaccount"
+            				,"/checkPassword"
             				,"/myaccount/checkpassword"
             				,"/myaccount/updatepassword"
+            				,"/myaccount/update"
             				,"/myaccount/delete"
+            				,"/idCheck"
             			    ).permitAll()
             .anyRequest().authenticated());
 		http.csrf(csrf -> csrf.ignoringRequestMatchers("/**"));
